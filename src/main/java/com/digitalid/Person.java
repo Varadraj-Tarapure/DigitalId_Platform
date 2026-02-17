@@ -124,3 +124,70 @@ public class Person{
 
         return true;
     }
+
+    /*
+     Function 3:addID()
+     Validates offence date format and
+     ensures points are between 1 and 6.
+    */
+    public String addID(String offenceDate,int points){
+        if(!isValidBirthdate(offenceDate))return "Failed";
+        if(points<1||points>6)return "Failed";
+        return "Success";
+    }
+
+    // Validate personID according to assignment rules
+    private boolean isValidPersonID(String id){
+        if(id==null||id.length()!=10)return false;
+        if(!id.substring(0,2).matches("[2-9]{2}"))return false;
+        if(!id.substring(8).matches("[A-Z]{2}"))return false;
+
+        String middle=id.substring(2,8);
+        int specialCount=0;
+
+        for(char c:middle.toCharArray()){
+            if(!Character.isLetterOrDigit(c))specialCount++;
+        }
+        return specialCount>=2;
+    }
+
+    // Validate address format
+    private boolean isValidAddress(String address){
+        if(address==null)return false;
+        String regex="^[0-9]+\\|[A-Za-z ]+\\|[A-Za-z ]+\\|Victoria\\|Australia$";
+        return address.matches(regex);
+    }
+
+    // Validate birthdate format DD-MM-YYYY
+    private boolean isValidBirthdate(String birthdate){
+        try{
+            LocalDate.parse(birthdate,FORMATTER);
+            return true;
+        }catch(DateTimeParseException e){
+            return false;
+        }
+    }
+
+    // Calculate age from birthdate
+    private int calculateAge(String birthdate){
+        LocalDate birth=LocalDate.parse(birthdate,FORMATTER);
+        return Period.between(birth,LocalDate.now()).getYears();
+    }
+
+    // Check if personID already exists in TXT file
+    private boolean personExists(String id){
+        try{
+            File file=new File(FILE_PATH);
+            if(!file.exists())return false;
+
+            try(Scanner scanner=new Scanner(file)){
+                while(scanner.hasNextLine()){
+                    if(scanner.nextLine().startsWith(id+","))return true;
+                }
+            }
+        }catch(IOException e){
+            return false;
+        }
+        return false;
+    }
+}
