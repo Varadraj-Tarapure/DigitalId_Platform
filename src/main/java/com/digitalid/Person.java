@@ -68,3 +68,59 @@ public class Person{
         return true;
     }
 
+    /*
+     Function 2:updatePersonalDetails()
+     Updates details while respecting:
+     -Under 18 address restriction
+     -Birthday change rule
+     -Even first digit ID rule
+    */
+    public boolean updatePersonalDetails(String newID,String newFirstName,String newLastName,String newAddress,String newBirthdate){
+        if(!personExists(this.personID))return false;
+
+        int age=calculateAge(this.birthdate);
+
+        // Under 18 cannot change address
+        if(age<18&&!newAddress.equals(this.address))return false;
+
+        // If birthday changes,no other field can change
+        if(!newBirthdate.equals(this.birthdate)){
+            if(!newID.equals(this.personID)||!newFirstName.equals(this.firstName)||!newLastName.equals(this.lastName)||!newAddress.equals(this.address))
+                return false;
+        }
+
+        // If first digit is even,ID cannot change
+        int firstDigit=Character.getNumericValue(this.personID.charAt(0));
+        if(firstDigit%2==0&&!newID.equals(this.personID))return false;
+
+        // Validate new values
+        if(!isValidPersonID(newID))return false;
+        if(!isValidAddress(newAddress))return false;
+        if(!isValidBirthdate(newBirthdate))return false;
+
+        try{
+            List<String> lines=Files.readAllLines(Paths.get(FILE_PATH));
+            List<String> updatedLines=new ArrayList<>();
+
+            for(String line:lines){
+                String[] parts=line.split(",");
+                if(parts[0].equals(this.personID)){
+                    updatedLines.add(newID+","+newFirstName+","+newLastName+","+newAddress+","+newBirthdate);
+                }else{
+                    updatedLines.add(line);
+                }
+            }
+            Files.write(Paths.get(FILE_PATH),updatedLines);
+        }catch(IOException e){
+            return false;
+        }
+
+        // Update object fields after successful file update
+        this.personID=newID;
+        this.firstName=newFirstName;
+        this.lastName=newLastName;
+        this.address=newAddress;
+        this.birthdate=newBirthdate;
+
+        return true;
+    }
