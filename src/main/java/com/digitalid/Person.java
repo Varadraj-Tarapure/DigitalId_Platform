@@ -126,39 +126,84 @@ public class Person{
     }
 
     /*
-     Function 3:addID()
-     Validates offence date format and
-     ensures points are between 1 and 6.
-    */
-    public String addID(String offenceDate,int points){
-        if(!isValidBirthdate(offenceDate))return "Failed";
-        if(points<1||points>6)return "Failed";
-        return "Success";
+ Function 3:addID()
+ Validates different ID types:
+ -Passport
+ -Driver Licence
+ -Medicare Card
+ -Student Card (only if under 18)
+
+ Stores ID in file if valid.
+ Returns true if successful,otherwise false.
+*/
+    public boolean addID(String idNumber,String idType){
+
+        int age=calculateAge(this.birthdate);
+        boolean isValid=false;
+
+        if(idType.equalsIgnoreCase("passport")){
+            isValid=idNumber.matches("[A-Z]{2}[0-9]{6}");
+        }
+        else if(idType.equalsIgnoreCase("licence")){
+            isValid=idNumber.matches("[A-Z]{2}[0-9]{8}");
+        }
+        else if(idType.equalsIgnoreCase("medicare")){
+            isValid=idNumber.matches("[0-9]{9}");
+        }
+        else if(idType.equalsIgnoreCase("student")){
+            if(age<18){
+                isValid=idNumber.matches("[0-9]{12}");
+            }else{
+                return false;
+            }
+        }
+
+        if(!isValid)return false;
+
+        try(BufferedWriter writer=
+                    new BufferedWriter(new FileWriter(FILE_PATH,true))){
+            writer.write("ID-"+personID+","+idType+","+idNumber);
+            writer.newLine();
+        }catch(IOException e){
+            return false;
+        }
+
+        return true;
     }
 
-    // Validate personID according to assignment rules
+    // Validate Person ID
     private boolean isValidPersonID(String id){
+
         if(id==null||id.length()!=10)return false;
-        if(!id.substring(0,2).matches("[2-9]{2}"))return false;
-        if(!id.substring(8).matches("[A-Z]{2}"))return false;
+
+        if(!id.substring(0,2).matches("[2-9]{2}"))
+            return false;
+
+        if(!id.substring(8).matches("[A-Z]{2}"))
+            return false;
 
         String middle=id.substring(2,8);
         int specialCount=0;
 
         for(char c:middle.toCharArray()){
-            if(!Character.isLetterOrDigit(c))specialCount++;
+            if(!Character.isLetterOrDigit(c))
+                specialCount++;
         }
+
         return specialCount>=2;
     }
 
     // Validate address format
     private boolean isValidAddress(String address){
+
         if(address==null)return false;
-        String regex="^[0-9]+\\|[A-Za-z ]+\\|[A-Za-z ]+\\|Victoria\\|Australia$";
+
+        String regex= "^[0-9]+\\|[A-Za-z ]+\\|[A-Za-z ]+\\|Victoria\\|Australia$";
+
         return address.matches(regex);
     }
 
-    // Validate birthdate format DD-MM-YYYY
+    // Validate date format
     private boolean isValidBirthdate(String birthdate){
         try{
             LocalDate.parse(birthdate,FORMATTER);
@@ -168,13 +213,15 @@ public class Person{
         }
     }
 
-    // Calculate age from birthdate
+    // Calculate age
     private int calculateAge(String birthdate){
-        LocalDate birth=LocalDate.parse(birthdate,FORMATTER);
-        return Period.between(birth,LocalDate.now()).getYears();
+        LocalDate birth=
+                LocalDate.parse(birthdate,FORMATTER);
+        return Period.between(birth,
+                LocalDate.now()).getYears();
     }
 
-    // Check if personID already exists in TXT file
+    // Check duplicate person
     private boolean personExists(String id){
         try{
             File file=new File(FILE_PATH);
@@ -182,7 +229,8 @@ public class Person{
 
             try(Scanner scanner=new Scanner(file)){
                 while(scanner.hasNextLine()){
-                    if(scanner.nextLine().startsWith(id+","))return true;
+                    if(scanner.nextLine().startsWith(id+","))
+                        return true;
                 }
             }
         }catch(IOException e){
