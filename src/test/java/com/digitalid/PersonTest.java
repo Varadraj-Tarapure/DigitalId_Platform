@@ -1,50 +1,65 @@
-package com.digitalid;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/*
+ JUnit test class for addPerson method
+ Contains 5 test cases to check different scenarios for person validation
+*/
 public class PersonTest {
-    
-    private static final Path FILE_PATH = Path.of("persons.txt");
 
-    @BeforeEach
-    void cleanFile() throws IOException {
-        Files.deleteIfExists(FILE_PATH);
-    }
-
+    //  Test Case 1: Valid Person Data
+    // Checks if a person with correct ID, address, and birthdate is accepted
     @Test
-    void addID_validPassport_returnsTrue() {
-        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertTrue(p.addID("AB123456", "passport"));
+    void testValidPerson() {
+        Person p = new Person("56ab!!CDAB", "John", "Doe",
+                "32|Highland Street|Melbourne|Victoria|Australia",
+                "15-11-1990");
+
+        assertTrue(Person.addPerson(p)); // Should succeed
     }
 
+    //  Test Case 2: Invalid ID (wrong format)
+    // Tests when personID does not match required pattern
     @Test
-    void addID_invalidIDPassport_returnsFalse() {
-        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertFalse(p.addID("Ab123456", "passport")); //the lowercase b will make it fail
+    void testInvalidID() {
+        Person p = new Person("11wrongID", "Sam", "Lee",
+                "32|Highland Street|Melbourne|Victoria|Australia",
+                "15-11-1990");
+
+        assertFalse(Person.addPerson(p)); // Should fail due to ID
     }
 
-    @Test 
-    void addID_validLicence_returnsTrue() {
-        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertTrue(p.addID("CD12345678", "licence")); //must use "licence"
-    }
-
+    //  Test Case 3: Invalid Address format
+    // Tests an address that does not follow the number|street|city|Victoria|Australia format
     @Test
-    void addID_invalidMedicareNotNineDigits_returnsFalse() {
-        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertFalse(p.addID("12345A789", "medicare")); //contains letter, so will fail
+    void testInvalidAddress() {
+        Person p = new Person("56ab!!CDAB", "Anna", "Kim",
+                "Melbourne City Australia",
+                "15-11-1990");
+
+        assertFalse(Person.addPerson(p)); // Should fail due to address
     }
 
+    //  Test Case 4: Invalid Birthdate format
+    // Checks birthdate format, should be DD-MM-YYYY
     @Test
-    void addID_studentCare_whenOver18_returnsFalse() {
-        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertFalse(p.addID("123456789012", "student")); //over 18, so will fail
+    void testInvalidBirthdate() {
+        Person p = new Person("56ab!!CDAB", "Mike", "Ross",
+                "32|Highland Street|Melbourne|Victoria|Australia",
+                "1990-11-15");
+
+        assertFalse(Person.addPerson(p)); // Should fail due to wrong date format
+    }
+
+    //  Test Case 5: Wrong State (not Victoria)
+    // Tests if the state part of the address is something other than Victoria
+    @Test
+    void testWrongState() {
+        Person p = new Person("56ab!!CDAB", "Sara", "Ali",
+                "32|Highland Street|Melbourne|NSW|Australia",
+                "15-11-1990");
+
+        assertFalse(Person.addPerson(p)); // Should fail due to incorrect state
     }
 }
