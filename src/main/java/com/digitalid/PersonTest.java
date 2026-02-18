@@ -20,10 +20,32 @@ public class PersonTest {
     }
 
     @Test
-    void addID_ValidPerson_returnsTrue() {
+    void addID_validPassport_returnsTrue() {
         Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
         assertTrue(p.addID("AB123456", "passport"));
     }
 
-    
+    @Test
+    void addID_invalidIDPassport_returnsFalse() {
+        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        assertFalse(p.addID("Ab123456", "passport")); //the lowercase b will make it fail
+    }
+
+    @Test 
+    void addID_validLicence_returnsTrue() {
+        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        assertTrue(p.addID("CD12345678", "licence")); //must use "licence"
+    }
+
+    @Test
+    void addID_invalidMedicareNotNineDigits_returnsFalse() {
+        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        assertFalse(p.addID("12345A789", "medicare")); //contains letter, so will fail
+    }
+
+    @Test
+    void addID_studentCare_whenOver18_returnsFalse() {
+        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        assertFalse(p.addID("123456789012", "student")); //over 18, so will fail
+    }
 }
