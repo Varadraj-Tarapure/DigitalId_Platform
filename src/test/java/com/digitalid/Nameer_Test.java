@@ -1,5 +1,3 @@
-// adding random comment 1 to test the action workflow on git
-
 package com.digitalid;
 
 import java.io.IOException;
@@ -16,10 +14,11 @@ public class Nameer_Test {
 
     private static final String FILE_PATH = "persons.txt";
 
-    @BeforeEach
-    void cleanFile() throws IOException {
-        Files.deleteIfExists(Paths.get(FILE_PATH));
-    }
+    // @BeforeEach
+    // void cleanFile() throws IOException {
+    //     Files.deleteIfExists(Paths.get(FILE_PATH));
+    // }
+
 
     // --- Test 1 everthing is Valid  ---
 
@@ -31,7 +30,7 @@ public class Nameer_Test {
 
         // Update Name and Address (Allowed for adult)
         boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
+            "76s_d%&fAB", 
             "Nameer", 
             "NewLastName", 
             "50|New Street|Geelong|Victoria|Australia", 
@@ -40,17 +39,18 @@ public class Nameer_Test {
         assertTrue(result, "Should successfully update details for a valid adult with odd ID");
     }
 
+
     // --- Test 2 Condition 1: Under 18 Address Check ---
 
     @Test
     void updateDetails_under18ChangeAddress_returnsFalse() {
-        // Born 2015 (Age ~11 in 2026), ID '36...'
-        Person p = new Person("36s_d%&fAB", "Kid", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-2015");
+        // Born 2015 (Age ~11 in 2026), ID '96...'
+        Person p = new Person("96s_d%&fAB", "Kid", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-2015");
         p.addPerson();
 
         // Try to change address
         boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
+            "96s_d%&fAB", 
             "Kid", 
             "Tan", 
             "99|Forbidden St|Melbourne|Victoria|Australia", // New Address
@@ -64,12 +64,12 @@ public class Nameer_Test {
 
     @Test
     void updateDetails_changeBirthdayAndName_returnsFalse() {
-        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        Person p = new Person("66s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
         p.addPerson();
 
         // Try to change Birthday AND Name
         boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
+            "66s_d%&fAB", 
             "Nameer", // Name changed
             "Tan", 
             "32|Highland Street|Melbourne|Victoria|Australia", 
@@ -79,17 +79,17 @@ public class Nameer_Test {
     }
 
 
-    // --- Test 4 Condition 3: Even/Odd ID Check ---
+       // --- Test 4 Condition 3: Even/Odd ID Check ---
 
     @Test
     void updateDetails_evenStartID_changeID_returnsFalse() {
-        // ID starts with '2' (Even)
-        Person p = new Person("26s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        // ID starts with '4' (Even)
+        Person p = new Person("46s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
         p.addPerson();
 
         // Try to change ID
         boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", // Changing ID to something else
+            "06s_d%&fAB", // Changing ID to something else
             "Ali", 
             "Tan", 
             "32|Highland Street|Melbourne|Victoria|Australia", 
@@ -98,16 +98,18 @@ public class Nameer_Test {
         assertFalse(result, "Should fail because ID starts with an even number (2)");
     }
 
+
+
     // --- Test 5 Invalid Format Checks on Updates ---
 
     @Test
     void updateDetails_invalidNewAddressFormat_returnsFalse() {
-        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
         p.addPerson();
 
         // Try to update with invalid address format (Wrong State)
         boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
+            "56s_d%&fAB", 
             "Ali", 
             "Tan", 
             "32|Highland Street|Sydney|NSW|Australia", // Invalid: State must be Victoria
@@ -116,5 +118,4 @@ public class Nameer_Test {
         assertFalse(result, "Should fail because the new address format is invalid (State not Victoria)");
     }
 
-    
 }
