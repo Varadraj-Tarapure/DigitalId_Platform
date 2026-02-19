@@ -38,5 +38,41 @@ public class PersonTest_Nameer {
         assertTrue(result, "Should successfully update details for a valid adult with odd ID");
     }
 
+    // --- Condition 1: Under 18 Address Check ---
+
+    @Test
+    void updateDetails_under18ChangeAddress_returnsFalse() {
+        // Born 2015 (Age ~11 in 2026), ID '36...'
+        Person p = new Person("36s_d%&fAB", "Kid", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-2015");
+        p.addPerson();
+
+        // Try to change address
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", 
+            "Kid", 
+            "Tan", 
+            "99|Forbidden St|Melbourne|Victoria|Australia", // New Address
+            "15-11-2015"
+        );
+        assertFalse(result, "Should fail because persons under 18 cannot change address");
+    }
+
+    @Test
+    void updateDetails_under18ChangeNameOnly_returnsTrue() {
+        // Born 2015 (Age ~11), ID '36...'
+        Person p = new Person("36s_d%&fAB", "Kid", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-2015");
+        p.addPerson();
+
+        // Try to change Name only (Address remains same)
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", 
+            "Nameer", // New Name
+            "Tan", 
+            "32|Highland Street|Melbourne|Victoria|Australia", // Same Address
+            "15-11-2015"
+        );
+        assertTrue(result, "Should pass because address did not change, only name did");
+    }
+
     
 }
