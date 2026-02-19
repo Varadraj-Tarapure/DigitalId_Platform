@@ -74,5 +74,39 @@ public class PersonTest_Nameer {
         assertTrue(result, "Should pass because address did not change, only name did");
     }
 
+        // --- Condition 2: Birthday Change Check ---
+
+    @Test
+    void updateDetails_changeBirthdayAndName_returnsFalse() {
+        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        p.addPerson();
+
+        // Try to change Birthday AND Name
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", 
+            "Nameer", // Name changed
+            "Tan", 
+            "32|Highland Street|Melbourne|Victoria|Australia", 
+            "20-11-1990" // Birthday changed
+        );
+        assertFalse(result, "Should fail because if birthday changes, no other details can change");
+    }
+
+    @Test
+    void updateDetails_changeBirthdayOnly_returnsTrue() {
+        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        p.addPerson();
+
+        // Try to change ONLY Birthday
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", 
+            "Ali", 
+            "Tan", 
+            "32|Highland Street|Melbourne|Victoria|Australia", 
+            "20-11-1990" // New Birthday
+        );
+        assertTrue(result, "Should pass because only the birthday was changed");
+    }
+
     
 }
