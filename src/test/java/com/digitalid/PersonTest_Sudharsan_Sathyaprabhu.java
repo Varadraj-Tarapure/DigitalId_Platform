@@ -1,3 +1,5 @@
+package com.digitalid;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ public class PersonTest_Sudharsan_Sathyaprabhu {
                 "32|Highland Street|Melbourne|Victoria|Australia",
                 "15-11-1990");
 
-        assertTrue(Person.addPerson(p)); // Should succeed
+        assertTrue(p.addPerson()); // Should succeed
     }
 
     //  Test Case 2: Invalid ID (wrong format)
@@ -27,7 +29,7 @@ public class PersonTest_Sudharsan_Sathyaprabhu {
                 "32|Highland Street|Melbourne|Victoria|Australia",
                 "15-11-1990");
 
-        assertFalse(Person.addPerson(p)); // Should fail due to ID
+        assertFalse(p.addPerson()); // Should fail due to ID
     }
 
     //  Test Case 3: Invalid Address format
@@ -38,7 +40,7 @@ public class PersonTest_Sudharsan_Sathyaprabhu {
                 "Melbourne City Australia",
                 "15-11-1990");
 
-        assertFalse(Person.addPerson(p)); // Should fail due to address
+        assertFalse(p.addPerson()); // Should fail due to address
     }
 
     //  Test Case 4: Invalid Birthdate format
@@ -49,7 +51,7 @@ public class PersonTest_Sudharsan_Sathyaprabhu {
                 "32|Highland Street|Melbourne|Victoria|Australia",
                 "1990-11-15");
 
-        assertFalse(Person.addPerson(p)); // Should fail due to wrong date format
+        assertFalse(p.addPerson()); // Should fail due to wrong date format
     }
 
     //  Test Case 5: Wrong State (not Victoria)
@@ -60,6 +62,6 @@ public class PersonTest_Sudharsan_Sathyaprabhu {
                 "32|Highland Street|Melbourne|NSW|Australia",
                 "15-11-1990");
 
-        assertFalse(Person.addPerson(p)); // Should fail due to incorrect state
+        assertFalse(p.addPerson()); // Should fail due to incorrect state
     }
 }
