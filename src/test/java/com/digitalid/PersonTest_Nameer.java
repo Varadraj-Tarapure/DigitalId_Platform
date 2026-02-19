@@ -108,5 +108,59 @@ public class PersonTest_Nameer {
         assertTrue(result, "Should pass because only the birthday was changed");
     }
 
+    // --- Condition 3: Even/Odd ID Check ---
+
+    @Test
+    void updateDetails_evenStartID_changeID_returnsFalse() {
+        // ID starts with '2' (Even)
+        Person p = new Person("26s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        p.addPerson();
+
+        // Try to change ID
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", // Changing ID to something else
+            "Ali", 
+            "Tan", 
+            "32|Highland Street|Melbourne|Victoria|Australia", 
+            "15-11-1990"
+        );
+        assertFalse(result, "Should fail because ID starts with an even number (2)");
+    }
+
+    @Test
+    void updateDetails_oddStartID_changeID_returnsTrue() {
+        // ID starts with '3' (Odd)
+        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        p.addPerson();
+
+        // Try to change ID
+        boolean result = p.updatePersonalDetails(
+            "56s_d%&fAB", // New valid ID
+            "Ali", 
+            "Tan", 
+            "32|Highland Street|Melbourne|Victoria|Australia", 
+            "15-11-1990"
+        );
+        assertTrue(result, "Should pass because ID starts with an odd number (3) and can be changed");
+    }
+
+    // --- Invalid Format Checks on Updates ---
+
+    @Test
+    void updateDetails_invalidNewAddressFormat_returnsFalse() {
+        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
+        p.addPerson();
+
+        // Try to update with invalid address format (Wrong State)
+        boolean result = p.updatePersonalDetails(
+            "36s_d%&fAB", 
+            "Ali", 
+            "Tan", 
+            "32|Highland Street|Sydney|NSW|Australia", // Invalid: State must be Victoria
+            "15-11-1990"
+        );
+        assertFalse(result, "Should fail because the new address format is invalid (State not Victoria)");
+    }
+
     
 }
