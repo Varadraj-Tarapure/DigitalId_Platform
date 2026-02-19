@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PersonTest_Naghullan {
+public class Naghullan_Test {
     
     private static final Path FILE_PATH = Path.of("persons.txt");
 

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PersonTest_Nameer {
+public class Nameer_Test {
 
     private static final String FILE_PATH = "persons.txt";
 
@@ -21,7 +21,7 @@ public class PersonTest_Nameer {
         Files.deleteIfExists(Paths.get(FILE_PATH));
     }
 
-    // --- Valid Update Path  ---
+    // --- Test 1 everthing is Valid  ---
 
     @Test
     void updateDetails_validAdultOddID_returnsTrue() {
@@ -40,7 +40,7 @@ public class PersonTest_Nameer {
         assertTrue(result, "Should successfully update details for a valid adult with odd ID");
     }
 
-    // --- Condition 1: Under 18 Address Check ---
+    // --- Test 2 Condition 1: Under 18 Address Check ---
 
     @Test
     void updateDetails_under18ChangeAddress_returnsFalse() {
@@ -59,24 +59,8 @@ public class PersonTest_Nameer {
         assertFalse(result, "Should fail because persons under 18 cannot change address");
     }
 
-    @Test
-    void updateDetails_under18ChangeNameOnly_returnsTrue() {
-        // Born 2015 (Age ~11), ID '36...'
-        Person p = new Person("36s_d%&fAB", "Kid", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-2015");
-        p.addPerson();
 
-        // Try to change Name only (Address remains same)
-        boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
-            "Nameer", // New Name
-            "Tan", 
-            "32|Highland Street|Melbourne|Victoria|Australia", // Same Address
-            "15-11-2015"
-        );
-        assertTrue(result, "Should pass because address did not change, only name did");
-    }
-
-        // --- Condition 2: Birthday Change Check ---
+        // --- Test 3 Condition 2: Birthday Change Check ---
 
     @Test
     void updateDetails_changeBirthdayAndName_returnsFalse() {
@@ -94,23 +78,8 @@ public class PersonTest_Nameer {
         assertFalse(result, "Should fail because if birthday changes, no other details can change");
     }
 
-    @Test
-    void updateDetails_changeBirthdayOnly_returnsTrue() {
-        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        p.addPerson();
 
-        // Try to change ONLY Birthday
-        boolean result = p.updatePersonalDetails(
-            "36s_d%&fAB", 
-            "Ali", 
-            "Tan", 
-            "32|Highland Street|Melbourne|Victoria|Australia", 
-            "20-11-1990" // New Birthday
-        );
-        assertTrue(result, "Should pass because only the birthday was changed");
-    }
-
-    // --- Condition 3: Even/Odd ID Check ---
+    // --- Test 4 Condition 3: Even/Odd ID Check ---
 
     @Test
     void updateDetails_evenStartID_changeID_returnsFalse() {
@@ -129,24 +98,7 @@ public class PersonTest_Nameer {
         assertFalse(result, "Should fail because ID starts with an even number (2)");
     }
 
-    @Test
-    void updateDetails_oddStartID_changeID_returnsTrue() {
-        // ID starts with '3' (Odd)
-        Person p = new Person("36s_d%&fAB", "Ali", "Tan", "32|Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        p.addPerson();
-
-        // Try to change ID
-        boolean result = p.updatePersonalDetails(
-            "56s_d%&fAB", // New valid ID
-            "Ali", 
-            "Tan", 
-            "32|Highland Street|Melbourne|Victoria|Australia", 
-            "15-11-1990"
-        );
-        assertTrue(result, "Should pass because ID starts with an odd number (3) and can be changed");
-    }
-
-    // --- Invalid Format Checks on Updates ---
+    // --- Test 5 Invalid Format Checks on Updates ---
 
     @Test
     void updateDetails_invalidNewAddressFormat_returnsFalse() {

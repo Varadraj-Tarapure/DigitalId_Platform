@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
  JUnit test class for addPerson method
  Contains 5 test cases to check different scenarios for person validation
 */
-public class PersonTest_Sudharsan_Sathyaprabhu {
+public class Sudharsan_Test {
 
     //  Test Case 1: Valid Person Data
     // Checks if a person with correct ID, address, and birthdate is accepted
