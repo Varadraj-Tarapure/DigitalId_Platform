@@ -6,22 +6,17 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class Naghullan_Test {
     
     private static final Path FILE_PATH = Path.of("persons.txt");
 
-    @BeforeEach
-    void cleanFile() throws IOException {
-        Files.deleteIfExists(FILE_PATH);
-    }
 
     @Test
     void addID_validPassport_returnsTrue() {
         Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertTrue(p.addID("AB123456", "passport"));
+        assertTrue(p.addID("AB123456", "passport"));  // Two uppercase letters and six digits, so it should pass
     }
 
     @Test
@@ -33,7 +28,7 @@ public class Naghullan_Test {
     @Test 
     void addID_validLicence_returnsTrue() {
         Person p = new Person("56s_d%&fAB", "Ali", "Tan", "32| Highland Street|Melbourne|Victoria|Australia", "15-11-1990");
-        assertTrue(p.addID("CD12345678", "licence")); //must use "licence"
+        assertTrue(p.addID("CD12345678", "licence")); // Two uppercase letters and eight digits, so it should pass
     }
 
     @Test

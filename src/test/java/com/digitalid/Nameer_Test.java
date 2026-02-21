@@ -7,18 +7,11 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class Nameer_Test {
 
     private static final String FILE_PATH = "persons.txt";
-
-    // @BeforeEach
-    // void cleanFile() throws IOException {
-    //     Files.deleteIfExists(Paths.get(FILE_PATH));
-    // }
-
 
     // --- Test 1 everthing is Valid  ---
 
