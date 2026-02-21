@@ -1,19 +1,34 @@
-## Project Overview
+**Project Overview**
 
 This project implements core functionalities of a Digital ID Platform using Java and Maven.
 
-#The system allows administrators to:
+### The system allows administrators to:
 
-Add a new person with validation rules
+- Add a new person with validation rules
 
-Update personal details with specific constraints
+- Update personal details with specific constraints
 
-Add different types of identity documents
+- Add different types of identity documents
 
-Automatically validate all input data
+- Automatically validate all input data
 
-Store valid records in a TXT file
+- Store valid records in a TXT file
 
-Execute automated unit tests using GitHub Actions
+- Execute automated unit tests using GitHub Actions
 
 This project follows structured validation logic and software engineering best practices.
+
+
+## Technologies Used
+
+- Java 21
+
+- Maven
+
+- JUnit 5
+
+- Git & GitHub
+
+- GitHub Actions (CI/CD)
+
+- TXT File Handling (Java IO)
