@@ -40,13 +40,13 @@ This project follows structured validation logic and software engineering best p
 
 ## 📥 1️. Clone the Repository
 
-Clone the project from GitHub:
+Open your terminal and run:
 
-git clone https://github.com/your-username/DigitalID-Platform.git
+git clone https://github.com/Varadraj-Tarapure/DigitalId_Platform.git
 
-Then navigate into the project directory:
+Then navigate into the project folder:
 
-cd DigitalID-Platform
+cd DigitalId_Platform
 
 
 ---
@@ -69,17 +69,16 @@ mvn -version
 
 ## 🧪 3️. Run Unit Tests
 
-To compile and execute all unit tests:
+To run all unit tests, execute the following command in the project directory:
 
-mvn clean test
+mvn test
 
-This command will:
-- Clean previous build files
-- Compile the source code
+This will:
+- Compile the project
 - Run all JUnit test cases
 - Display test results in the terminal
 
-If all tests pass, you will see:
+If all tests pass successfully, you will see:
 
 BUILD SUCCESS
 
